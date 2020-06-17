@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt')
 
 const User = require("../model/user");
 
@@ -10,11 +11,12 @@ async function createToken(req, res) {
     };
 
     const found = await User.findOne({
-      username: user.username,
-      password: user.password,  
-    });
+      username: user.username  
+    })
 
-    if (found) {
+    const isMatch = await bcrypt.compare(req.body.password, found.password)
+
+    if (isMatch) {
       jwt.sign(
         { user },
         process.env.SECRET,
