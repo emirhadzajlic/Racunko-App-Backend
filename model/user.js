@@ -12,12 +12,8 @@ const user = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 8,
-        maxlength:64,
+        // maxlength:64,
     },
-    smsData: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'sms-data'
-    }
 })
 
 module.exports = mongoose.model("users", user);
