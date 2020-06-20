@@ -14,6 +14,14 @@ const user = new mongoose.Schema({
         minlength: 8,
         // maxlength:64,
     },
+    email: {
+        type: String,
+        required: true,
+    },
+    items: [{
+        amount: Number,
+        category: String
+    }]
 })
 
 module.exports = mongoose.model("users", user);

@@ -9,7 +9,7 @@ async function createToken(req, res) {
         username: req.body.username,
         password: req.body.password
     };
-
+  
     const found = await User.findOne({
       username: user.username  
     })
@@ -22,13 +22,18 @@ async function createToken(req, res) {
         process.env.SECRET,
         { expiresIn: "1h" },
         (err, token) => {
-          res.json({ token });
+          if(err) console.log(err)
+          res.json({
+            token:token,
+            items:found.items
+          });
         }
       );
     } else {
       res.json({ error: "incorrect username or password" });
     }
   } catch (err) {
+    console.log(err)
     res.status(403).json({ error: "Auth failed!" });
   }
 }
