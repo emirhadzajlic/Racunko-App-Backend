@@ -17,7 +17,7 @@ routes.post('/register', async (req, res) => {
     }
 })
   
-routes.get('/login', Auth.createToken)
+routes.post('/login', Auth.createToken)
 
 routes.post('/update', (req,res) => {
     User.updateItems(req.body.username,req.body.items)
