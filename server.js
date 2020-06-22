@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const express = require('express')
 const bodyParser = require("body-parser");
 require("dotenv").config();
-
+const dburl = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/RacunkoApp";
 const routes = require('./routes/routes');
 
 const port = process.env.PORT || 3000
@@ -16,7 +16,7 @@ app.use('/', routes);
 
 app.listen(port, () => {
     console.log("listen on port " + port);
-    mongoose.connect("mongodb://127.0.0.1:27017/RacunkoApp", {
+    mongoose.connect(dburl, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
