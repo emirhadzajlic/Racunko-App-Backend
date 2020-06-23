@@ -18,7 +18,7 @@ async function createToken(req, res) {
 
     if (isMatch) {
       jwt.sign(
-        { user },
+        { found },
         process.env.SECRET,
         { expiresIn: "1h" },
         (err, token) => {
@@ -30,11 +30,11 @@ async function createToken(req, res) {
         }
       );
     } else {
-      res.json({ error: "incorrect username or password" });
+      res.json({ error: "Incorrect password!" });
     }
   } catch (err) {
     console.log(err)
-    res.status(403).json({ error: "Auth failed!" });
+    res.status(403).json({ error: "User does not exist!" });
   }
 }
 
