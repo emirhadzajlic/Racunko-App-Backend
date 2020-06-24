@@ -19,8 +19,10 @@ const user = new mongoose.Schema({
         required: true,
     },
     items: [{
+        property: String,
         amount: Number,
-        category: String
+        category: String,
+        description: String
     }]
 })
 
