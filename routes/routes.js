@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 
 const User = require('../controller/user')
 const Auth = require('../authorization/auth')
+const user = require('../model/user')
 
 routes.post('/register', async (req, res) => {
     const foundUser = await User.findUserByUsername(req.body.username)
@@ -29,6 +30,40 @@ routes.post('/update', (req,res) => {
         console.log("Failed to update items");
         res.send("Failed to update")
     })
+})
+
+routes.get('/diagram', async (req, res) => {
+
+    let foundUser = await user.find({username:req.body.username})
+
+    let totalAmount=0
+    let dataForDiagram=[]
+    let totalAmountPrihod=0
+    let totalAmountRashod=0
+
+    for (let i=0;i<foundUser[0].items.length;i++){
+        if(foundUser[0].items[i].property==="prihod") {
+            totalAmountPrihod+=foundUser[0].items[i].amount
+        }else {
+            totalAmountRashod+=foundUser[0].items[i].amount
+        }
+    }
+    for (let i=0;i<foundUser[0].items.length;i++){
+        if(foundUser[0].items[i].property==="prihod") {
+            dataForDiagram.push({
+                "property": "prihod",
+                "category": foundUser[0].items[i].category,
+                "percentage": foundUser[0].items[i].amount/totalAmountPrihod
+            })
+        }else {
+            dataForDiagram.push({
+                "property": "rashod",
+                "category": foundUser[0].items[i].category,
+                "percentage": foundUser[0].items[i].amount/totalAmountRashod
+            })
+        }
+    }
+    res.send(dataForDiagram)
 })
 
 module.exports = routes
