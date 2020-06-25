@@ -1,9 +1,9 @@
 const routes = require('express').Router();
 const bcrypt = require('bcrypt')
 
-const User = require('../controller/user')
-const Auth = require('../authorization/auth')
-const user = require('../model/user')
+const User = require('../controller/user');
+const Auth = require('../authorization/auth');
+const user = require('../model/user');
 
 routes.post('/register', async (req, res) => {
     const foundUser = await User.findUserByUsername(req.body.username)

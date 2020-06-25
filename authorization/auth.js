@@ -39,18 +39,22 @@ async function createToken(req, res) {
 }
 
 function verifyToken(req, res, next) {
-  const bh = req.headers["authorization"];
-  if (typeof bh !== "undefined") {
-    req.token = bh.split(" ")[1];
-    jwt.verify(req.token, process.env.SECRET, (err, auth) => {
-      if (err) {
-        res.status(403).json({ error: "Authentication failed!" });
-        return;
-      }
+  if(req.url == "/login" || req.url == "/register"){
       next();
-    });
   } else {
-    res.sendStatus(403);
+    const bh = req.headers["authorization"];
+    if (typeof bh !== "undefined") {
+      req.token = bh.split(" ")[1];
+      jwt.verify(req.token, process.env.SECRET, (err, auth) => {
+        if (err) {
+          res.status(403).json({ error: "Authentication failed!" });
+          return;
+        }
+        next();
+      });
+    } else {
+      res.sendStatus(403);
+    }
   }
 }
 
