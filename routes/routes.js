@@ -43,7 +43,7 @@ routes.post('/add', (req,res) => {
         User.updateItems(req.body.username,itemsToUpdate)
         .then(e => {
             console.log("Updated");
-            res.send(e);
+            res.send(e.items[e.items.length-1]);
         })
         .catch(e => {
             console.log("Failed to update items");
