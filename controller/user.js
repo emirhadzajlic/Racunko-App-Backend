@@ -23,7 +23,7 @@ function registerUser(userInfo){
 
 function updateItems(username, newItems){
     return new Promise((resolve, reject) => {
-        User.findOneAndUpdate({username: username},{items:newItems}, (err,doc) => {
+        User.findOneAndUpdate({username: username},{items:newItems}, {new:true}, (err,doc) => {
             if(err) reject(err);
             else resolve(doc);
         })

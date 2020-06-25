@@ -36,22 +36,23 @@ routes.post('/add', (req,res) => {
     User.findUserByUsername(req.body.username)
     .then(user => {
         var newItems = user.items
-        return newItems.push(req.body.item);
+        newItems.push(req.body.item);
+        return newItems;
     })
     .then(itemsToUpdate => {
         User.updateItems(req.body.username,itemsToUpdate)
         .then(e => {
             console.log("Updated");
-            res.send("Updated");
+            res.send(e);
         })
         .catch(e => {
             console.log("Failed to update items");
-            res.send("Failed to update")
+            res.send(e)
         })
     })
     .catch(e => {
         console.log("Failed to update items");
-        res.send("Failed to update")
+        res.send(e)
     })
 })
 
