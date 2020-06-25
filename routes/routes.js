@@ -32,6 +32,29 @@ routes.post('/update', (req,res) => {
     })
 })
 
+routes.post('/add', (req,res) => {
+    User.findUserByUsername(req.body.username)
+    .then(user => {
+        var newItems = user.items
+        return newItems.push(req.body.item);
+    })
+    .then(itemsToUpdate => {
+        User.updateItems(req.body.username,itemsToUpdate)
+        .then(e => {
+            console.log("Updated");
+            res.send("Updated");
+        })
+        .catch(e => {
+            console.log("Failed to update items");
+            res.send("Failed to update")
+        })
+    })
+    .catch(e => {
+        console.log("Failed to update items");
+        res.send("Failed to update")
+    })
+})
+
 routes.get('/diagram', async (req, res) => {
 
     let foundUser = await user.find({username:req.body.username})
