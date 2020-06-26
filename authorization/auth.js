@@ -61,7 +61,7 @@ function verifyToken(req, res, next) {
         next();
       });
     } else {
-      res.sendStatus(403);
+      res.sendStatus(403).json(asd:req.headers);
     }
   }
 }
