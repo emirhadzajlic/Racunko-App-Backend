@@ -56,13 +56,13 @@ function verifyToken(req, res, next) {
       req.token = bh.split(" ")[1];
       jwt.verify(req.token, process.env.SECRET, (err, auth) => {
         if (err) {
-          res.status(403).json({ error: "Authentication failed!"});
+          res.send(req.headers)//.status(403).json({ error: "Authentication failed!"});
           return;
         }
         next();
       });
     } else {
-      res.sendStatus(403);
+      res.send(req.headers)//sendStatus(403);
     }
   }
 }
