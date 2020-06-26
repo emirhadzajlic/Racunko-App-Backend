@@ -14,6 +14,14 @@ async function createToken(req, res) {
       username: user.username  
     })
 
+    if(!found){
+      res.json({ error: "Can't find user!" });
+    }
+
+    if(!found.isVerified) {
+      res.json({ error: "Confirm your email!" });
+    }
+
     const isMatch = await bcrypt.compare(req.body.password, found.password)
 
     if (isMatch) {
@@ -34,7 +42,7 @@ async function createToken(req, res) {
     }
   } catch (err) {
     console.log(err)
-    res.status(403).json({ error: "User does not exist!" });
+    res.status(403).json({ error: "Authorization failed!" });
   }
 }
 
