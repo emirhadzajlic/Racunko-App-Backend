@@ -9,11 +9,11 @@ const userModel = require('../model/user')
 const Token = require('../model/token')
 
 routes.post('/register',(req, res) => {
-    userr.findOne({ email: req.body.email }, async (err, user) => {
+    userModel.findOne({ email: req.body.email }, async (err, user) => {
         const salt = await bcrypt.genSalt(10)
         req.body.password = await bcrypt.hash(req.body.password, salt)
         
-        user = new userr({ username: req.body.username, password: req.body.password, email: req.body.email});
+        user = new userModel({ username: req.body.username, password: req.body.password, email: req.body.email});
         user.save(function () {
      
             var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
