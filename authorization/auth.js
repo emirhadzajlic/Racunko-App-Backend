@@ -18,9 +18,9 @@ async function createToken(req, res) {
       res.json({ error: "Can't find user!" });
     }
 
-    if(!found.isVerified) {
+    /*if(!found.isVerified) {
       res.json({ error: "Confirm your email!" });
-    }
+    }*/
 
     const isMatch = await bcrypt.compare(req.body.password, found.password)
 
@@ -55,7 +55,7 @@ function verifyToken(req, res, next) {
       req.token = bh.split(" ")[1];
       jwt.verify(req.token, process.env.SECRET, (err, auth) => {
         if (err) {
-          res.status(403).json({ error: "Authentication failed!" });
+          res.status(403).json({ error: "Authentication failed!", asd:req.headers });
           return;
         }
         next();
