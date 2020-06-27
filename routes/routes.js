@@ -20,7 +20,7 @@ routes.post('/register',(req, res) => {
             
             token.save(function () {
      
-                var transporter = nodemailer.createTransport({ service: 'gmail', auth: { user: "emirhadzajlic001@gmail.com", pass: "emirsnoopy123" } });
+                var transporter = nodemailer.createTransport({ service: 'gmail', auth: { user: "emirhadzajlic001@gmail.com", pass: process.env.PASSWORD } });
                 var mailOptions = { from: 'emirhadzajlic001@gmail.com', to: user.email, subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n' };
                 transporter.sendMail(mailOptions, function (err) {
                     if (err) { return res.status(500).send({ msg: err.message }); }
@@ -99,6 +99,20 @@ routes.get('/diagram', async (req, res) => {
         }
     }
     res.send(dataForDiagram)
+})
+
+routes.post('/filter', async (req, res) => {
+    let x = await userModel.findOne({"username":req.body.username})
+
+    let arr = []
+
+    x.items.forEach(e => {
+        let k = e.createdAt.toString()
+        if(k.substring(4,7)===req.body.month && k.substring(11,15)===req.body.year){
+            arr.push(e)
+         }
+    })
+    res.send(arr)
 })
 
 routes.post('/confirmation', User.confirmationPost);
