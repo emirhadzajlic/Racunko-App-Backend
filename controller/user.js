@@ -30,6 +30,21 @@ function updateItems(username, newItems){
     })
 }
 
+function deleteItem(username, time){
+    return new Promise(async (resolve,reject) => {
+        const user = await User.findOne({username: username},(err) => {
+            if(err) reject(err);
+        });
+        const newItems = user.items.filter(e => {
+            return String(e.createdAt) !== String(new Date(time))
+        })
+        User.findOneAndUpdate({username: username}, {items:newItems}, {new:true}, (err,doc)=> {
+            if(err) reject(err);
+            else resolve(doc);
+        })
+    })
+}
+
 function confirmationPost(req, res, next) {
     Token.findOne({ token: req.body.token }, function (err, token) {
         if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
@@ -51,5 +66,6 @@ module.exports = {
     findUserByUsername,
     registerUser,
     updateItems,
-    confirmationPost
+    confirmationPost,
+    deleteItem
 }

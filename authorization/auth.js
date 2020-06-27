@@ -47,7 +47,6 @@ async function createToken(req, res) {
 }
 
 function verifyToken(req, res, next) {
-  console.log(req.headers)
   if(req.url == "/login" || req.url == "/register"){
       next();
   } else {
@@ -56,13 +55,13 @@ function verifyToken(req, res, next) {
       req.token = bh.split(" ")[1];
       jwt.verify(req.token, process.env.SECRET, (err, auth) => {
         if (err) {
-          res.send(req.headers)//.status(403).json({ error: "Authentication failed!"});
+          res.status(403).json({ error: "Authentication failed!"});
           return;
         }
         next();
       });
     } else {
-      res.send(req.headers)//sendStatus(403);
+      res.sendStatus(403);
     }
   }
 }

@@ -31,7 +31,18 @@ routes.post('/register',(req, res) => {
       });
 })
   
-routes.post('/login', Auth.createToken)
+routes.post('/login', Auth.createToken);
+
+routes.delete('/delete', (req,res) => {
+    User.deleteItem(req.body.username,req.body.time)
+    .then(e => {
+        res.send(e)
+    })
+    .catch(e => {
+        console.log(e)
+        res.send(e)
+    })
+})
 
 routes.post('/add', (req,res) => {
     User.findUserByUsername(req.body.username)

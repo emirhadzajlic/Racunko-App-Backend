@@ -26,7 +26,12 @@ const user = new mongoose.Schema({
         property: String,
         amount: Number,
         category: String,
-        description: String
+        description: String,
+        createdAt: {
+            type: Date,
+            required: true,
+            default: Date.now
+        }
     }]
 })
 
