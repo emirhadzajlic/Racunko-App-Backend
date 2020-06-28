@@ -30,13 +30,13 @@ function updateItems(username, newItems){
     })
 }
 
-function deleteItem(username, time){
+function deleteItem(username, id){
     return new Promise(async (resolve,reject) => {
         const user = await User.findOne({username: username},(err) => {
             if(err) reject(err);
         });
-        const newItems = user.items.filter(e => {
-            return String(e.createdAt) !== String(new Date(time))
+        let newItems = user.items.filter(e => {
+            return e._id != id
         })
         User.findOneAndUpdate({username: username}, {items:newItems}, {new:true}, (err,doc)=> {
             if(err) reject(err);

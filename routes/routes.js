@@ -34,7 +34,7 @@ routes.post('/register',(req, res) => {
 routes.post('/login', Auth.createToken);
 
 routes.delete('/delete', (req,res) => {
-    User.deleteItem(req.body.username,req.body.time)
+    User.deleteItem(req.body.username,req.body._id)
     .then(e => {
         res.send(e)
     })
