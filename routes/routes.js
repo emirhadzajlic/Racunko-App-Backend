@@ -6,7 +6,8 @@ const nodemailer = require("nodemailer");
 const User = require("../controller/user");
 const Auth = require("../authorization/auth");
 const userModel = require("../model/user");
-const Token = require("../model/token");
+const Token = require("../model/emailToken");
+const emailToken = require("../controller/emailToken")
 const Item = require("../controller/item");
 
 routes.post("/register", (req, res) => {
@@ -136,6 +137,6 @@ routes.post("/filter", async (req, res) => {
   res.send(arr);
 });
 
-routes.post("/confirmation", User.confirmationPost);
+routes.post("/confirmation", emailToken.confirmationPost);
 
 module.exports = routes;

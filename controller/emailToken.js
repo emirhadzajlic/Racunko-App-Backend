@@ -1,24 +1,4 @@
-const User = require("../model/user");
-
-function findUserByUsername(username) {
-  return new Promise((reslove, reject) => {
-    try {
-      reslove(User.findOne({ username: username }));
-    } catch {
-      reject(false);
-    }
-  });
-}
-
-function registerUser(userInfo) {
-  return new Promise((resolve, reject) => {
-    try {
-      resolve(User.create(userInfo));
-    } catch {
-      reject(false);
-    }
-  });
-}
+const Token = require("../model/emailToken");
 
 function confirmationPost(req, res, next) {
   Token.findOne({ token: req.body.token }, function (err, token) {
@@ -59,6 +39,5 @@ function confirmationPost(req, res, next) {
 }
 
 module.exports = {
-  findUserByUsername,
-  registerUser,
+  confirmationPost,
 };
