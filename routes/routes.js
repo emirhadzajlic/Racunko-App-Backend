@@ -121,7 +121,8 @@ routes.get("/diagram", async (req, res) => {
 });
 
 routes.post("/filter", async (req, res) => {
-  let x = await userModel.findOne({ username: req.body.username });
+  let x = await userModel.findOne({ username: req.body.username })
+  .populate("items").exec();
 
   let arr = [];
 

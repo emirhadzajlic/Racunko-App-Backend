@@ -1,9 +1,18 @@
 const mongoose = require("mongoose");
 
 const item = new mongoose.Schema({
-    property: String,
-    amount: Number,
-    category: String,
+    property: {
+        type: String,
+        required: true,
+    },
+    amount: {
+        type: Number,
+        required: true,
+    },
+    category: {
+        type: String,
+        required: true,
+    },
     description: String,
     createdAt: {
         type: Date,
