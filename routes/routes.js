@@ -88,7 +88,13 @@ routes.post("/add", async (req, res) => {
   }
 });
 
-routes.get("/diagram", async (req, res) => {
+routes.post('/items', async (req, res) => {
+  let foundUser = await userModel.find({username:req.body.username})
+  .populate().exec();
+  res.send(foundUser[0].items)
+})
+
+routes.post("/diagram", async (req, res) => {
   let foundUser = await userModel.find({ username: req.body.username }).populate('items').exec();
 
   let dataForDiagram = [];
