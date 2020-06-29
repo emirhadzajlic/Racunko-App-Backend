@@ -1,4 +1,5 @@
-const User = require("../model/user");
+const User = require("../model/user.js");
+const Item = require("../model/item.js");
 
 function updateItems(username, newItems) {
   return new Promise((resolve, reject) => {
@@ -12,6 +13,14 @@ function updateItems(username, newItems) {
       }
     );
   });
+}
+
+function addItem(itemData){
+  return new Promise((resolve,reject) =>{ 
+    Item.create(itemData)
+    .then(e => resolve(e))
+    .catch(e => reject(e))
+  })
 }
 
 function deleteItem(username, id) {
@@ -37,4 +46,5 @@ function deleteItem(username, id) {
 module.exports = {
   updateItems,
   deleteItem,
+  addItem
 };

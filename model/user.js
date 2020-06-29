@@ -23,15 +23,8 @@ const user = new mongoose.Schema({
   },
   items: [
     {
-      property: String,
-      amount: Number,
-      category: String,
-      description: String,
-      createdAt: {
-        type: Date,
-        required: true,
-        default: Date.now,
-      },
+      type: mongoose.Types.ObjectId,
+      ref: "items"
     },
   ],
 });

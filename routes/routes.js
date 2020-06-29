@@ -64,7 +64,7 @@ routes.post("/register", (req, res) => {
 routes.post("/login", Auth.createToken);
 
 routes.delete("/delete", (req, res) => {
-  Item.deleteItem(req.body.username, req.body._id)
+  Item.deleteItem(req.body.username, req.body.id)
     .then((e) => {
       res.send(e);
     })
@@ -74,32 +74,21 @@ routes.delete("/delete", (req, res) => {
     });
 });
 
-routes.post("/add", (req, res) => {
-  User.findUserByUsername(req.body.username)
-    .then((user) => {
-      var newItems = user.items;
-      newItems.push(req.body.item);
-      return newItems;
-    })
-    .then((itemsToUpdate) => {
-      Item.updateItems(req.body.username, itemsToUpdate)
-        .then((e) => {
-          console.log("Updated");
-          res.send(e.items[e.items.length - 1]);
-        })
-        .catch((e) => {
-          console.log("Failed to update items");
-          res.send(e);
-        });
-    })
-    .catch((e) => {
-      console.log("Failed to update items");
-      res.send(e);
-    });
+routes.post("/add", async (req, res) => {
+  try{
+    const newItem = await Item.addItem(req.body.item);
+    const user = await User.findUserByUsername(req.body.username)
+    var newItems = user.items;
+    newItems.push(newItem._id);
+    await Item.updateItems(req.body.username, newItems)
+    res.send(newItem);
+  } catch(e) {
+    res.send(e)
+  }
 });
 
 routes.get("/diagram", async (req, res) => {
-  let foundUser = await userModel.find({ username: req.body.username });
+  let foundUser = await userModel.find({ username: req.body.username }).populate('items').exec();
 
   let dataForDiagram = [];
   let totalAmountPrihod = 0;

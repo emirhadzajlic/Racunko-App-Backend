@@ -62,7 +62,5 @@ function confirmationPost(req, res, next) {
 module.exports = {
   findUserByUsername,
   registerUser,
-  updateItems,
   confirmationPost,
-  deleteItem,
 };

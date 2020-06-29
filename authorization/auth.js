@@ -12,15 +12,15 @@ async function createToken(req, res) {
 
     const found = await User.findOne({
       username: user.username,
-    });
+    }).populate("items").exec();
 
     if (!found) {
       res.json({ error: "Can't find user!" });
     }
 
-    if (!found.isVerified) {
+    /*if (!found.isVerified) {
       res.json({ error: "Confirm your email!" });
-    }
+    }*/
 
     const isMatch = await bcrypt.compare(req.body.password, found.password);
 
