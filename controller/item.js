@@ -34,12 +34,11 @@ function deleteItem(username, id) {
     User.findOneAndUpdate(
       { username: username },
       { items: newItems },
-      { new: true },
-      (err, doc) => {
-        if (err) reject(err);
-        else resolve(doc);
-      }
-    );
+      { new: true }
+    ).populate('items').exec((err, doc) => {
+      if (err) reject(err);
+      else resolve(doc);
+    });
   });
 }
 

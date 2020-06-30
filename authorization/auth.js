@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const User = require("../model/user");
 
 async function createToken(req, res) {
+  console.log(req.body)
   try {
     const user = {
       username: req.body.username,
