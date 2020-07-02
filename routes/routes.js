@@ -64,12 +64,12 @@ routes.post("/register", (req, res) => {
 
 routes.post("/login", Auth.createToken);
 
-routes.delete("/delete", (req, res) => {
+routes.post("/delete", (req, res) => {
   Item.deleteItem(req.body.username, req.body.id)
-    .then((e) => {
+    .then(e => {
       res.send(e);
     })
-    .catch((e) => {
+    .catch(e => {
       console.log(e);
       res.send(e);
     });

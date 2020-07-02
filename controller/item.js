@@ -25,20 +25,23 @@ function addItem(itemData){
 
 function deleteItem(username, id) {
   return new Promise(async (resolve, reject) => {
-    const user = await User.findOne({ username: username }, (err) => {
-      if (err) reject(err);
-    });
-    let newItems = user.items.filter((e) => {
-      return e._id != id;
-    });
-    User.findOneAndUpdate(
-      { username: username },
-      { items: newItems },
-      { new: true }
-    ).populate('items').exec((err, doc) => {
-      if (err) reject(err);
-      else resolve(doc);
-    });
+    try{
+      const user = await User.findOne({ username: username });
+      if(!user.items) reject('No items found!');
+      let newItems = user.items.filter((e) => {
+        return e._id != id;
+      });
+      User.findOneAndUpdate(
+        { username: username },
+        { items: newItems },
+        { new: true }
+      ).populate('items').exec((err, doc) => {
+        if (err) reject(err);
+        else resolve(doc);
+      });
+    } catch(e) {
+      reject(e);
+    }
   });
 }
 
